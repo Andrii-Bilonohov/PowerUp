@@ -2,6 +2,7 @@
 using PowerUp.Domain.Abstarctions.Repositories;
 using PowerUp.Domain.Models.Trainings;
 using PowerUp.Domain.Requests.Trainings;
+using PowerUp.Domain.Responses;
 using PowerUp.Infrastructure.Repositories.Base;
 
 namespace PowerUp.Infrastructure.Repositories;
@@ -12,7 +13,7 @@ public sealed class TrainingRepository : RepositoryBase<Training>, ITrainingRepo
     {
     }
     
-    public Task<List<Training>> GetAll(TrainingsRequest request, CancellationToken cancellationToken)
+    public async Task<ResponseList<Training>> GetAll(TrainingsRequest request, CancellationToken cancellationToken)
     {
         var query = Set<Training>();
 
@@ -21,9 +22,20 @@ public sealed class TrainingRepository : RepositoryBase<Training>, ITrainingRepo
             query = query.Where(x => x.Name.Contains(request.SearchField));
         }
         
-        return query
+        var count = await query.CountAsync(cancellationToken);
+        
+        var items = await query
             .Skip(request.Offset)
             .Take(request.Limit)
             .ToListAsync(cancellationToken);
+
+        return new ResponseList<Training>
+        {
+            Items = items,
+            TotalCount = count,
+            Limit = request.Limit,
+            Offset = request.Offset,
+            Page = request.Offset / request.Limit,
+        };
     }
 }
