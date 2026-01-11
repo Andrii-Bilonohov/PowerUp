@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
+using PowerUp.Application.Services.Trainings.DTOs.Requests;
+using PowerUp.Application.Services.Trainings.DTOs.Responses;
 using PowerUp.Domain.Abstarctions;
 using PowerUp.Domain.Abstarctions.Repositories;
 using PowerUp.Domain.Models.Trainings;
@@ -20,14 +22,14 @@ public class TrainingsService
         _logger = logger;
     }
 
-    public async Task<ResponseList<TrainingResponse>> GetAll(TrainingsRequest request, CancellationToken cancellationToken = default)
+    public async Task<ResponseList<TrainingResponse>> GetAllAsync(TrainingsRequest request, CancellationToken cancellationToken = default)
     {
         var response = await _trainingRepository.GetAll(request, cancellationToken);
 
         return response.ToResponseList(ToTrainingResponse);
     }
 
-    public async Task<TrainingResponse> Add(CreateTrainingRequest request, CancellationToken cancellationToken = default)
+    public async Task<TrainingResponse> AddAsync(CreateTrainingRequest request, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrEmpty(request.Name) || string.IsNullOrWhiteSpace(request.Name))
         {

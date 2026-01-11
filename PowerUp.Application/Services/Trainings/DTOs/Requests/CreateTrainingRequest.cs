@@ -1,12 +1,10 @@
 ﻿using PowerUp.Domain.Enums;
 
-namespace PowerUp.Application.Services.Trainings;
+namespace PowerUp.Application.Services.Trainings.DTOs.Requests;
 
-public class TrainingResponse
+public class CreateTrainingRequest
 {
-    public int Id { get; set; }
     public required string Name { get; set; }
-    public int Rating { get; set; }
     
     public DifficultyLevel DifficultyLevel { get; set; }
     public TrainingType TrainingType { get; set; }
