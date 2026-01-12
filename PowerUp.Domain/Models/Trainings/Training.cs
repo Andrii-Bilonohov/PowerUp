@@ -1,11 +1,10 @@
-﻿using PowerUp.Domain.Enums;
-using PowerUp.Domain.Models.Base;
+﻿using PowerUp.Domain.Models.Base;
+using PowerUp.Domain.Models.Trainings.Enums;
 
 namespace PowerUp.Domain.Models.Trainings;
 
 public class Training : BaseEntity
 {
-    public int Id { get; set; }
     public required string Name { get; set; }
     public int Rating { get; set; }
     
